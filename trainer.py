@@ -168,7 +168,11 @@ class Trainer():
         self.show_image('result', self.test_image)
 
 if __name__ == '__main__':
-    trainer = Trainer(60, 50, 50, 5)
+    contour_area_threshhold = 60
+    crop_width = 50
+    crop_height = 50
+    crop_margin = 5
+    trainer = Trainer(contour_area_threshhold, crop_width, crop_height, crop_margin)
 
     trainer.create_training_data()
     train_data, train_labels = trainer.load_training_data()
