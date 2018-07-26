@@ -1,4 +1,4 @@
-efrom trainer import Trainer
+from trainer import Trainer
 import os
 
 if __name__ == '__main__':
