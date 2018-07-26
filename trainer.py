@@ -41,6 +41,11 @@ class Trainer():
 
         return thresh
 
+    """invert_colour
+    """
+    def invert_colour(self, image):
+        return cv2.threshold(image, 200, 300, cv2.THRESH_BINARY_INV)[1]
+
     """find_contours
     """
     def find_contours(self, image):
@@ -159,25 +164,58 @@ class Trainer():
     def show_result_image(self, results):
         font = cv2.FONT_HERSHEY_SIMPLEX
         font_scale = 0.7
-        font_colour = (255,0,255)
+        font_colour = (0,0,0)
         font_type = 2
+        image = self.invert_colour(self.test_image)
+        # Show the resulting image with the contours drawn around all of the digits
+        # and the result printed above it
         for [i,c] in enumerate(self.test_contours):
             [x, y, w, h] = cv2.boundingRect(c)
             position = (x-self.crop_margin,y-self.crop_margin)
-            cv2.putText(self.test_image, str(results[i][0]), position, font, font_scale, font_colour, font_type)
-        self.show_image('result', self.test_image)
+            cv2.putText(image, str(results[i][0]), position, font, font_scale, font_colour, font_type)
+        self.show_image('result', image)
+
+    """show_result_accuracy
+    """
+    def get_result_accuracy(self, results, test_labels):
+        test_labels = np.array(test_labels, np.int64)[:,np.newaxis]
+        test_labels.reshape((test_labels.size, 1))
+        
+        matches = results[::-1]==test_labels
+        correct = np.count_nonzero(matches)
+
+        return correct*100.0/results.size
 
 if __name__ == '__main__':
+    # Create a Trainer object
     contour_area_threshhold = 60
     crop_width = 50
     crop_height = 50
     crop_margin = 5
     trainer = Trainer(contour_area_threshhold, crop_width, crop_height, crop_margin)
 
-    trainer.create_training_data()
-    train_data, train_labels = trainer.load_training_data()
-    test_data = trainer.create_test_image('numbers_test.jpg')
+    # Create training data files if they have not been already created
+    if not os.path.exists(trainer.train_data_file) or not os.path.exists(trainer.train_labels_file):
+        print "Creating new data files."
+        trainer.create_training_data()
 
+    # Load training data files into Numpy arrays
+    train_data, train_labels = trainer.load_training_data()
+    # Load a test image and convert it into a Numpy array
+    test_data = trainer.create_test_image('numbers_test.jpg')
+    # Use the training data and test image to train the algorithm and predict the drawn digits
     results = trainer.knn_train(train_data, train_labels, test_data)
 
+    # Generate test labels for the test image provided in this example
+    test_labels = []
+    for x in range(1,10):
+        for y in range(0,9):
+            test_labels.append(x)
+    for x in range(0,9):
+        test_labels.append(0)
+
+    # Show the resulting test image with the results printed on top
     trainer.show_result_image(results)
+    # Get the accuracy of the results
+    accuracy = trainer.get_result_accuracy(results, test_labels)
+    print "accuracy =", accuracy, "%"
