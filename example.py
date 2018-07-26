@@ -1,4 +1,4 @@
-from trainer import Trainer
+efrom trainer import Trainer
 import os
 
 if __name__ == '__main__':
@@ -17,7 +17,7 @@ if __name__ == '__main__':
     # Load training data files into Numpy arrays
     train_data, train_labels = trainer.load_training_data()
     # Load a test image and convert it into a Numpy array
-    test_data = trainer.create_test_image('docs/images/example.jpg')
+    test_data = trainer.create_test_image('example/example.jpg')
     # Use the training data and test image to train the algorithm and predict the drawn digits
     results = trainer.knn_train(train_data, train_labels, test_data)
 
