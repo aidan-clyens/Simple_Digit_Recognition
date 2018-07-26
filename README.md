@@ -9,7 +9,7 @@
 
 ### Installing
 1. Clone the directory with `git clone git@github.com:aidanclyens88/Simple_Digit_Recognition.git`.
-2. Create and run your own python 2 script, making sure to import trainer.py.
+2. Create and run your own Python 2.7 script, making sure to import trainer.py.
 3. The first time the script is run, training data files will be created in the [datasets](./datasets) folder, named train_data.data and train_labels.data.
 
 ### Adding training data
@@ -37,7 +37,7 @@ This will create a training dataset given a set of images and save to data files
     # Load training data files into Numpy arrays
     train_data, train_labels = trainer.load_training_data()
     # Load a test image and convert it into a Numpy array
-    test_data = trainer.create_test_image('docs/images/example.jpg')
+    test_data = trainer.create_test_image('example/example.jpg')
     # Use the training data and test image to train the algorithm and predict the drawn digits
     results = trainer.knn_train(train_data, train_labels, test_data)
 
@@ -56,10 +56,10 @@ This will create a training dataset given a set of images and save to data files
     print "accuracy =", accuracy, "%"
 ```
 
-Example Test Image Before:
+#### Example Test Image Before:
 ![](./example/example.jpg)
 
-Example Test Image After:
+#### Example Test Image After:
 ![](./example/example_result.jpg)
 
 This example is 94.44% accurate.
