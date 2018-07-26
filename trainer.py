@@ -158,12 +158,12 @@ class Trainer():
     """
     def show_result_image(self, results):
         font = cv2.FONT_HERSHEY_SIMPLEX
-        position = (x-self.crop_margin,y-self.crop_margin)
         font_scale = 0.7
         font_colour = (255,0,255)
         font_type = 2
         for [i,c] in enumerate(self.test_contours):
             [x, y, w, h] = cv2.boundingRect(c)
+            position = (x-self.crop_margin,y-self.crop_margin)
             cv2.putText(self.test_image, str(results[i][0]), position, font, font_scale, font_colour, font_type)
         self.show_image('result', self.test_image)
 
