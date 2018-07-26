@@ -52,16 +52,16 @@ class Trainer():
         # Find every contour in the image using the OpenCV function
         contours, _ = cv2.findContours(image.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         new_contours = []
-        # Filter the contours by area, to eliminate invalid contours
+        # Filter the contours by area and aspect ratio, to eliminate invalid contours
         for c in contours:
             [x, y, w, h] = cv2.boundingRect(c)
             area = cv2.contourArea(c)
 
-            if area > self.threshold_area:
+            if area > self.threshold_area and w/h < 2:
                 # Draw a rectangle at each contour on the image for viewing purposes
                 cv2.rectangle(image, (x, y), (x+w, y+h), (255,0,255),1)
                 new_contours.append(c)
-
+                
         return new_contours
 
     """convert_image
@@ -180,7 +180,6 @@ class Trainer():
     def get_result_accuracy(self, results, test_labels):
         test_labels = np.array(test_labels, np.int64)[:,np.newaxis]
         test_labels.reshape((test_labels.size, 1))
-        
         matches = results[::-1]==test_labels
         correct = np.count_nonzero(matches)
 
