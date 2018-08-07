@@ -63,3 +63,6 @@ This will create a training dataset given a set of images and save to data files
 ![](./example/example_result.jpg)
 
 This example is 94.44% accurate.
+
+## Author
+Copyright 2018 Aidan Clyens
