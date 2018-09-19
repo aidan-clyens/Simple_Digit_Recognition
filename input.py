@@ -10,22 +10,26 @@ if __name__ == '__main__':
     crop_margin = 5
     trainer = Trainer(contour_area_threshhold, crop_width, crop_height, crop_margin)
 
+    # User must enter at least one argument, if not then exit
     if len(sys.argv) < 2:
         print "Enter file name: python", sys.argv[0], "filename"
         print "Enter python input.py --help for more commands"
         exit()
 
+    # User enters the 'help' argument
     if sys.argv[1] == "--help":
         print "Usage: python input.py --command OR python input.py filename"
         print "Commands:"
         print "--g  :   generate new training data files"
         exit()
 
+    # User enters the 'generate' argument
     if sys.argv[1] == "--g":
         print "Creating new training data files."
         trainer.create_training_data()
         exit()
 
+    # User enters a file name as an argument
     input_file = sys.argv[1]
     if not os.path.exists(input_file):
         print input_file, "is not a valid file name."
