@@ -111,7 +111,6 @@ class Trainer():
                 contours = self.find_contours(img)
                 train_data = self.get_digit_data(train_data, img, contours)
 
-                print n
                 for c in contours:
                     train_labels.append(n)
 
