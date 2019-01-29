@@ -50,7 +50,7 @@ class Trainer():
     """
     def find_contours(self, image):
         # Find every contour in the image using the OpenCV function
-        contours, _ = cv2.findContours(image.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        _, contours, _ = cv2.findContours(image.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         new_contours = []
         # Filter the contours by area and aspect ratio, to eliminate invalid contours
         for c in contours:
@@ -152,9 +152,9 @@ class Trainer():
     """
     def knn_train(self, train_data, train_labels, test_data):
         # Using the training data and training labels, train the K-Nearest Neighbours algorithm
-        knn = cv2.KNearest()
-        knn.train(train_data, train_labels)
-        _, results, _, _ = knn.find_nearest(test_data, k=5)
+        knn = cv2.ml.KNearest_create()
+        knn.train(train_data, cv2.ml.ROW_SAMPLE, train_labels)
+        _, results, _, _ = knn.findNearest(test_data, k=5)
 
         return results
 
