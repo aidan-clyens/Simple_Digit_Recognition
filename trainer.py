@@ -171,7 +171,7 @@ class Trainer():
         for [i,c] in enumerate(self.test_contours):
             [x, y, w, h] = cv2.boundingRect(c)
             position = (x-self.crop_margin,y-self.crop_margin)
-            cv2.putText(image, str(results[i][0]), position, font, font_scale, font_colour, font_type)
+            cv2.putText(image, str(int(results[i][0])), position, font, font_scale, font_colour, font_type)
         self.show_image('result', image)
 
     """show_result_accuracy
